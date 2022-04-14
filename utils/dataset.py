@@ -14,7 +14,6 @@ from pathlib import Path
 # WaveRNN/Vocoder Dataset #########################################################
 ###################################################################################
 
-
 class VocoderDataset(Dataset):
     def __init__(self, path: Path, dataset_ids, train_gta=False):
         self.metadata = dataset_ids
@@ -24,8 +23,8 @@ class VocoderDataset(Dataset):
 
     def __getitem__(self, index):
         item_id = self.metadata[index]
-        m = np.load(self.mel_path/f'{item_id}.npy')
-        x = np.load(self.quant_path/f'{item_id}.npy')
+        m = np.load(self.mel_path/f'{item_id}.npy') # 这啥
+        x = np.load(self.quant_path/f'{item_id}.npy')# 这又是啥
         return m, x
 
     def __len__(self):

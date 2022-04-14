@@ -52,15 +52,15 @@ def main():
 
     # Instantiate WaveRNN Model
     voc_model = WaveRNN(rnn_dims=hp.voc_rnn_dims,
-                        fc_dims=hp.voc_fc_dims,
-                        bits=hp.bits,
-                        pad=hp.voc_pad,
+                        fc_dims=hp.voc_fc_dims,         
+                        bits=hp.bits,                   # 音频采样率 位
+                        pad=hp.voc_pad,                 # resblock两端的padding
                         upsample_factors=hp.voc_upsample_factors,
-                        feat_dims=hp.num_mels,
+                        feat_dims=hp.num_mels,          # mel的通道数？
                         compute_dims=hp.voc_compute_dims,
                         res_out_dims=hp.voc_res_out_dims,
-                        res_blocks=hp.voc_res_blocks,
-                        hop_length=hp.hop_length,
+                        res_blocks=hp.voc_res_blocks,   # 残差块个数
+                        hop_length=hp.hop_length,       
                         sample_rate=hp.sample_rate,
                         mode=hp.voc_mode).to(device)
 
@@ -74,6 +74,7 @@ def main():
 
     total_steps = 10_000_000 if force_train else hp.voc_total_steps
 
+    # 简易训练信息表格
     simple_table([('Remaining', str((total_steps - voc_model.get_step())//1000) + 'k Steps'),
                   ('Batch Size', batch_size),
                   ('LR', lr),
@@ -102,6 +103,7 @@ def voc_train_loop(paths: Paths, model: WaveRNN, loss_func, optimizer, train_set
         start = time.time()
         running_loss = 0.
 
+        #   x: y: m:是啥？
         for i, (x, y, m) in enumerate(train_set, 1):
             x, m, y = x.to(device), m.to(device), y.to(device)
 
@@ -151,7 +153,7 @@ def voc_train_loop(paths: Paths, model: WaveRNN, loss_func, optimizer, train_set
         # Must save latest optimizer state to ensure that resuming training
         # doesn't produce artifacts
         save_checkpoint('voc', paths, model, optimizer, is_silent=True)
-        model.log(paths.voc_log, msg)
+        model.log(paths.voc_log, msg)   # log中写入训练信息
         print(' ')
 
 

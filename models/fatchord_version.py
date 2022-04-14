@@ -96,9 +96,9 @@ class WaveRNN(nn.Module):
         super().__init__()
         self.mode = mode
         self.pad = pad
-        if self.mode == 'RAW':
+        if self.mode == 'RAW':              # 输入为原始信号
             self.n_classes = 2 ** bits
-        elif self.mode == 'MOL':
+        elif self.mode == 'MOL':            # 输入为梅尔倒谱
             self.n_classes = 30
         else:
             RuntimeError("Unknown model mode value - ", self.mode)
@@ -407,6 +407,7 @@ class WaveRNN(nn.Module):
     def get_step(self):
         return self.step.data.item()
 
+    #   
     def log(self, path, msg):
         with open(path, 'a') as f:
             print(msg, file=f)

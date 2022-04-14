@@ -60,7 +60,7 @@ this will force tactron to create a GTA dataset even if it hasn't finish trainin
 
 > python train_wavernn.py --gta
 
-NB: You can always just run train_wavernn.py without --gta if you're not interested in TTS.
+NB: You can always <font color='yellow'>just run train_wavernn.py without --gta if you're not interested in TTS.</font>
 
 4 - Generate Sentences with both models using:
 
